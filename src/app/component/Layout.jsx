@@ -1,9 +1,10 @@
 import React from 'react'
 
-const Layout = () => {
+const Layout = ({ Page }) => {
     return (
         <div>
             this is a Layout function
+            <Page />
         </div>
     )
 }

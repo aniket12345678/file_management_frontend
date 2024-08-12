@@ -1,3 +1,4 @@
+import Layout from "../component/Layout";
 import Login from "../pages/auth/Login";
 import SignUp from "../pages/auth/SignUp";
 import Home from "../pages/Home";
@@ -16,7 +17,7 @@ const authRoutes = [
 const guardedRoutes = [
     {
         path: '/home',
-        element: <Home />
+        element: <Layout Page={Home} />
     },
 ];
 
