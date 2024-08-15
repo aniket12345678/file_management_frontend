@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap'
 
 import { uploadMedia } from '../slice/fileManager.slice';
 
 const AddModal = (props) => {
-    const { show, addMedia } = props;
+    const { show, addMedia, allMediaFn } = props;
     const dispatch = useDispatch();
+    const { level } = useSelector((state) => state.fileManager);
+
     const [folder, setFolder] = useState('');
     const [allFiles, setAllFiles] = useState([]);
     const [storeType, setStoreType] = useState('');
@@ -29,15 +31,23 @@ const AddModal = (props) => {
             allFiles.forEach((itr) => {
                 formdata.append('attachments', itr);
             });
-            formdata.append('user_data', JSON.stringify({ media_type: 'file' }));
+            formdata.append('user_data', JSON.stringify({
+                media_type: 'file',
+                parent_id: level
+            }));
         } else {
             formdata.append(
                 'user_data',
-                JSON.stringify({ media_type: 'foler', folder: folder })
+                JSON.stringify({
+                    media_type: 'foler',
+                    folder: folder,
+                    parent_id: level
+                })
             );
         }
         dispatch(uploadMedia(formdata)).unwrap().then((result) => {
             if (result.code === 200) {
+                allMediaFn()
                 setFolder('');
                 setAllFiles([]);
                 setStoreType('');

@@ -30,15 +30,26 @@ export const fetchAllMedia = createAsyncThunk('/file/manager/find/all',
 export const fileManager = createSlice({
     name: 'fileManager',
     initialState: {
-        allMediaData: []
+        allMediaData: [],
+        level: 0,
+        fileHistory: []
     },
-    reducers: {},
+    reducers: {
+        changeLevel: (state, action) => {
+            state.level = action.payload;
+        },
+        addfileHistory: (state, action) => {
+            state.fileHistory = [...state.fileHistory, action.payload];
+        },
+        updatefileHistory: (state, action) => {
+            state.fileHistory = action.payload;
+        }
+    },
     extraReducers: (builder) => {
-        builder.addCase(uploadMedia.fulfilled, (state, action) => {
-            console.log('action.payload:- ', action.payload);
-        });
         builder.addCase(fetchAllMedia.fulfilled, (state, action) => {
             state.allMediaData = action.payload.data;
         })
     }
 });
+
+export const { changeLevel, addfileHistory, updatefileHistory } = fileManager.actions;
