@@ -9,4 +9,4 @@ const Login = () => {
     )
 }
 
-export default AuthLayout(Login)
+export default AuthLayout(Login);
